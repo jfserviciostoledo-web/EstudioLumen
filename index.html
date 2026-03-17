@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lumen Studio Fotografía — Estudio de fotografía profesional</title>
+  <meta name="description" content="Lumen Studio Fotografía. Especialistas en fotografía de bodas, retratos, familias y eventos. Imágenes elegantes y atemporales.">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ---- Index-specific styles ---- */
+
+    /* Hero */
+    .hero-index {
+      min-height: 100vh;
+    }
+
+    .hero-bg-index {
+      background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?w=1800&q=80');
+    }
+
+    .hero-scroll {
+      position: absolute;
+      right: 4rem;
+      bottom: 3rem;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .hero-scroll span {
+      writing-mode: vertical-rl;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .hero-scroll-line {
+      width: 1px;
+      height: 50px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollLine 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollLine {
+      0%   { transform: scaleY(0); transform-origin: top; }
+      50%  { transform: scaleY(1); transform-origin: top; }
+      51%  { transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* Intro strip */
+    .intro-strip {
+      background: var(--surface);
+      padding: 3rem 4rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .intro-item {
+      padding: 1rem 3rem 1rem 0;
+      border-right: 1px solid var(--border);
+    }
+    .intro-item:last-child { border-right: none; padding-right: 0; padding-left: 3rem; }
+    .intro-item:nth-child(2) { padding-left: 3rem; }
+
+    .intro-item .num {
+      font-family: var(--serif);
+      font-size: 3rem;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+
+    .intro-item p {
+      font-size: 0.82rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    /* Services preview */
+    .services-preview {
+      background: var(--bg);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .service-item {
+      background: var(--bg);
+      padding: 2.5rem;
+      transition: background var(--transition);
+      cursor: default;
+    }
+
+    .service-item:hover {
+      background: var(--surface);
+    }
+
+    .service-icon {
+      width: 36px;
+      height: 1px;
+      background: var(--gold);
+      margin-bottom: 1.75rem;
+      transition: width var(--transition);
+    }
+
+    .service-item:hover .service-icon { width: 60px; }
+
+    .service-item h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .service-item p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    /* Portfolio preview */
+    .portfolio-preview {
+      background: var(--bg-2);
+    }
+
+    .portfolio-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3rem;
+    }
+
+    .masonry {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto;
+      gap: 1.5px;
+    }
+
+    .masonry-item {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .masonry-item:first-child {
+      grid-row: span 2;
+    }
+
+    .masonry-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      min-height: 250px;
+      filter: brightness(0.8) saturate(0.85);
+      transition: filter var(--transition), transform 0.6s ease;
+    }
+
+    .masonry-item:hover img {
+      filter: brightness(1) saturate(1);
+      transform: scale(1.04);
+    }
+
+    .masonry-item-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(12,12,11,0);
+      display: flex;
+      align-items: flex-end;
+      padding: 1.5rem;
+      transition: background var(--transition);
+    }
+
+    .masonry-item:hover .masonry-item-overlay {
+      background: rgba(12,12,11,0.45);
+    }
+
+    .masonry-item-label {
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity var(--transition), transform var(--transition);
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold-pale);
+    }
+
+    .masonry-item:hover .masonry-item-label {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* About teaser */
+    .about-teaser {
+      background: var(--bg);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      padding: 0;
+    }
+
+    .about-img-side {
+      position: relative;
+      min-height: 540px;
+      overflow: hidden;
+    }
+
+    .about-img-side img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.6) saturate(0.8);
+    }
+
+    .about-text-side {
+      padding: 6rem 5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: var(--surface);
+    }
+
+    .about-text-side .label { margin-bottom: 1rem; }
+    .about-text-side h2 { margin-bottom: 1.5rem; }
+    .about-text-side p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+      line-height: 1.9;
+    }
+
+    /* Testimonial */
+    .testimonial-section {
+      background: var(--bg-2);
+      text-align: center;
+      padding: 6rem 4rem;
+    }
+
+    .quote-mark {
+      font-family: var(--serif);
+      font-size: 5rem;
+      color: var(--gold);
+      line-height: 0.5;
+      margin-bottom: 1.5rem;
+    }
+
+    .testimonial-section blockquote {
+      font-family: var(--serif);
+      font-size: clamp(1.3rem, 2.5vw, 2rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--white);
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      line-height: 1.5;
+    }
+
+    .testimonial-section cite {
+      font-style: normal;
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* CTA Banner */
+    .cta-banner {
+      background: var(--bg);
+      padding: 7rem 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 3rem;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cta-banner h2 { max-width: 500px; }
+
+    @media (max-width: 900px) {
+      .intro-strip { grid-template-columns: 1fr; padding: 2rem; }
+      .intro-item { border-right: none; border-bottom: 1px solid var(--border); padding: 1.5rem 0 !important; }
+      .intro-item:last-child { border-bottom: none; }
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .masonry { grid-template-columns: 1fr 1fr; }
+      .masonry-item:first-child { grid-row: span 1; }
+      .about-teaser { grid-template-columns: 1fr; }
+      .about-img-side { min-height: 320px; position: relative; }
+      .about-text-side { padding: 3.5rem 2rem; }
+      .cta-banner { flex-direction: column; align-items: flex-start; padding: 5rem 2rem; }
+    }
+
+    @media (max-width: 600px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .masonry { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" id="main-nav">
+    <a href="index.html" class="nav-logo">Lumen <span>Studio</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Inicio</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="servicios.html">Servicios</a></li>
+      <li><a href="sobre-nosotros.html">Sobre nosotros</a></li>
+      <li><a href="contacto.html" class="nav-cta">Contacto</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Abrir menú" id="nav-toggle">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero hero-index">
+    <div class="hero-bg hero-bg-index" id="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content fade-up">
+      <span class="label"><span class="gold-line"></span>Estudio de fotografía profesional</span>
+      <h1>Capturamos<br>lo que el tiempo<br><em>no puede borrar</em></h1>
+      <p>Fotografía de bodas, retratos y eventos con identidad visual propia. Imágenes naturales, elegantes y atemporales.</p>
+      <a href="portfolio.html" class="btn"><span>Ver portfolio</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="hero-scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- Intro Strip -->
+  <div class="intro-strip">
+    <div class="intro-item fade-up">
+      <div class="num">+8</div>
+      <p>Años de experiencia</p>
+    </div>
+    <div class="intro-item fade-up" style="transition-delay:0.1s">
+      <div class="num">+500</div>
+      <p>Reportajes realizados</p>
+    </div>
+    <div class="intro-item fade-up" style="transition-delay:0.2s">
+      <div class="num">7</div>
+      <p>Especialidades fotográficas</p>
+    </div>
+  </div>
+
+  <!-- Services Preview -->
+  <section class="services-preview">
+    <div class="section-header fade-up">
+      <span class="label"><span class="gold-line"></span>Especialidades</span>
+      <h2>Lo que hacemos</h2>
+    </div>
+    <div class="services-grid">
+      <div class="service-item fade-up">
+        <div class="service-icon"></div>
+        <h3>Bodas</h3>
+        <p>Documentamos cada detalle y emoción de tu día especial con un estilo natural y elegante.</p>
+      </div>
+      <div class="service-item fade-up" style="transition-delay:0.07s">
+        <div class="service-icon"></div>
+        <h3>Retratos</h3>
+        <p>Sesiones personalizadas que capturan la personalidad y esencia de cada individuo.</p>
+      </div>
+      <div class="service-item fade-up" style="transition-delay:0.14s">
+        <div class="service-icon"></div>
+        <h3>Familias</h3>
+        <p>Momentos cotidianos convertidos en recuerdos que duran toda la vida.</p>
+      </div>
+      <div class="service-item fade-up" style="transition-delay:0.21s">
+        <div class="service-icon"></div>
+        <h3>Eventos</h3>
+        <p>Cobertura profesional de todo tipo de eventos sociales y corporativos.</p>
+      </div>
+      <div class="service-item fade-up" style="transition-delay:0.28s">
+        <div class="service-icon"></div>
+        <h3>Fotografía corporativa</h3>
+        <p>Imagen profesional para empresas, equipos y comunicación de marca.</p>
+      </div>
+      <div class="service-item fade-up" style="transition-delay:0.35s">
+        <div class="service-icon"></div>
+        <h3>Sesiones en estudio</h3>
+        <p>Luz controlada y ambiente profesional para resultados impecables.</p>
+      </div>
+    </div>
+    <div style="margin-top:3rem;" class="fade-up">
+      <a href="servicios.html" class="btn"><span>Todos los servicios</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- Portfolio Preview -->
+  <section class="portfolio-preview">
+    <div class="portfolio-header fade-up">
+      <div>
+        <span class="label"><span class="gold-line"></span>Trabajos recientes</span>
+        <h2>Portfolio</h2>
+      </div>
+      <a href="portfolio.html" class="btn btn-dark"><span>Ver todo</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <div class="masonry fade-up">
+      <div class="masonry-item">
+        <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?w=800&q=80" alt="Fotografía de boda" loading="lazy">
+        <div class="masonry-item-overlay"><span class="masonry-item-label">Bodas</span></div>
+      </div>
+      <div class="masonry-item">
+        <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&q=80" alt="Retrato" loading="lazy">
+        <div class="masonry-item-overlay"><span class="masonry-item-label">Retratos</span></div>
+      </div>
+      <div class="masonry-item">
+        <img src="https://images.unsplash.com/photo-1511988617509-a57c8a288659?w=800&q=80" alt="Familia" loading="lazy">
+        <div class="masonry-item-overlay"><span class="masonry-item-label">Familias</span></div>
+      </div>
+      <div class="masonry-item">
+        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80" alt="Evento" loading="lazy">
+        <div class="masonry-item-overlay"><span class="masonry-item-label">Eventos</span></div>
+      </div>
+      <div class="masonry-item">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80" alt="Corporativo" loading="lazy">
+        <div class="masonry-item-overlay"><span class="masonry-item-label">Corporativo</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Teaser -->
+  <div class="about-teaser">
+    <div class="about-img-side">
+      <img src="https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=1000&q=80" alt="Fotógrafo en acción" loading="lazy">
+    </div>
+    <div class="about-text-side">
+      <span class="label"><span class="gold-line"></span>Quiénes somos</span>
+      <h2>Una mirada<br>con identidad<br><em>propia</em></h2>
+      <p>Lumen Studio es un equipo de fotógrafos con experiencia en fotografía social y artística. Trabajamos tanto en estudio como en exteriores, buscando crear imágenes naturales, elegantes y atemporales.</p>
+      <a href="sobre-nosotros.html" class="btn"><span>Conocer el estudio</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Testimonial -->
+  <div class="testimonial-section fade-up">
+    <div class="quote-mark">"</div>
+    <blockquote>Las fotos de nuestra boda superaron todas nuestras expectativas. Lumen Studio capturó cada emoción de forma perfecta.</blockquote>
+    <cite>Laura & Marcos — Boda en Madrid, 2024</cite>
+  </div>
+
+  <!-- CTA Banner -->
+  <div class="cta-banner fade-up">
+    <h2>¿Tienes un proyecto<br><em>en mente?</em></h2>
+    <a href="contacto.html" class="btn"><span>Hablemos</span>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">Lumen <span>Studio</span></a>
+        <p>Estudio de fotografía profesional especializado en bodas, retratos y eventos.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="servicios.html">Servicios</a></li>
+          <li><a href="sobre-nosotros.html">Sobre nosotros</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Servicios</h4>
+        <ul>
+          <li><a href="servicios.html">Fotografía de bodas</a></li>
+          <li><a href="servicios.html">Retratos</a></li>
+          <li><a href="servicios.html">Familias</a></li>
+          <li><a href="servicios.html">Eventos</a></li>
+          <li><a href="servicios.html">Corporativo</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="mailto:info@lumenstudio.es">info@lumenstudio.es</a></li>
+          <li><a href="tel:+34600000000">+34 600 000 000</a></li>
+          <li><a href="contacto.html">Formulario de contacto</a></li>
+        </ul>
+        <div class="social-links" style="margin-top:1.5rem;">
+          <a href="#">Instagram</a>
+          <a href="#">Facebook</a>
+          <a href="#">Pinterest</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Lumen Studio Fotografía. Todos los derechos reservados.</span>
+      <span>Diseñado con precisión</span>
+    </div>
+  </footer>
+
+  <script>
+    // Navbar scroll
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Hero image parallax load
+    const heroBg = document.getElementById('hero-bg');
+    if (heroBg) setTimeout(() => heroBg.classList.add('loaded'), 100);
+
+    // Mobile nav toggle
+    document.getElementById('nav-toggle').addEventListener('click', function() {
+      const links = document.querySelector('.nav-links');
+      const isOpen = links.style.display === 'flex';
+      links.style.display = isOpen ? 'none' : 'flex';
+      links.style.flexDirection = 'column';
+      links.style.position = 'fixed';
+      links.style.top = '70px';
+      links.style.left = '0';
+      links.style.right = '0';
+      links.style.background = 'rgba(12,12,11,0.98)';
+      links.style.padding = '2rem';
+      links.style.gap = '1.5rem';
+      links.style.backdropFilter = 'blur(12px)';
+      links.style.borderBottom = '1px solid rgba(201,169,110,0.18)';
+    });
+
+    // Fade-up on scroll
+    const fadeEls = document.querySelectorAll('.fade-up');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    fadeEls.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
