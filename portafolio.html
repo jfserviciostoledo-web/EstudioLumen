@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio — Lumen Studio Fotografía</title>
+  <meta name="description" content="Galería de trabajos de Lumen Studio: bodas, retratos, familias, eventos y fotografía corporativa.">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Filter tabs */
+    .filter-bar {
+      display: flex;
+      gap: 0;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+      border: 1px solid var(--border);
+    }
+
+    .filter-btn {
+      background: none;
+      border: none;
+      border-right: 1px solid var(--border);
+      padding: 0.85rem 1.8rem;
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .filter-btn:last-child { border-right: none; }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--surface);
+      color: var(--white);
+    }
+
+    .filter-btn.active { color: var(--gold); }
+
+    /* Gallery grid */
+    .gallery-grid {
+      columns: 3;
+      column-gap: 2px;
+    }
+
+    .gallery-item {
+      break-inside: avoid;
+      margin-bottom: 2px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      display: block;
+      filter: brightness(0.82) saturate(0.88);
+      transition: filter 0.5s ease, transform 0.5s ease;
+    }
+
+    .gallery-item:hover img {
+      filter: brightness(1) saturate(1);
+      transform: scale(1.03);
+    }
+
+    .gallery-item-info {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 2rem 1.5rem 1.5rem;
+      background: linear-gradient(transparent, rgba(12,12,11,0.85));
+      transform: translateY(8px);
+      opacity: 0;
+      transition: all var(--transition);
+    }
+
+    .gallery-item:hover .gallery-item-info {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .gallery-item-info .label { margin-bottom: 0.25rem; }
+    .gallery-item-info p { font-family: var(--serif); font-size: 1.1rem; color: var(--white); font-style: italic; }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(10,10,9,0.97);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-height: 88vh; max-width: 90vw; object-fit: contain; }
+    .lightbox-close {
+      position: absolute;
+      top: 2rem; right: 2rem;
+      background: none; border: 1px solid var(--border);
+      color: var(--white); width: 44px; height: 44px;
+      cursor: pointer; font-size: 1.2rem;
+      transition: background var(--transition);
+    }
+    .lightbox-close:hover { background: rgba(255,255,255,0.08); }
+
+    @media (max-width: 900px) {
+      .gallery-grid { columns: 2; }
+    }
+    @media (max-width: 500px) {
+      .gallery-grid { columns: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav scrolled" id="main-nav">
+    <a href="index.html" class="nav-logo">Lumen <span>Studio</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="portfolio.html" class="active">Portfolio</a></li>
+      <li><a href="servicios.html">Servicios</a></li>
+      <li><a href="sobre-nosotros.html">Sobre nosotros</a></li>
+      <li><a href="contacto.html" class="nav-cta">Contacto</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Abrir menú" id="nav-toggle">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <span class="label fade-up"><span class="gold-line"></span>Trabajos realizados</span>
+    <h1 class="fade-up" style="transition-delay:0.1s">Portfolio</h1>
+    <p class="fade-up" style="transition-delay:0.2s; color:var(--muted); margin-top:1rem; max-width:480px;">Una selección de nuestro trabajo a lo largo de los años. Cada imagen cuenta una historia única.</p>
+  </div>
+
+  <!-- Gallery -->
+  <section style="padding-top:4rem;">
+    <div class="filter-bar fade-up" id="filter-bar">
+      <button class="filter-btn active" data-filter="all">Todos</button>
+      <button class="filter-btn" data-filter="bodas">Bodas</button>
+      <button class="filter-btn" data-filter="retratos">Retratos</button>
+      <button class="filter-btn" data-filter="familias">Familias</button>
+      <button class="filter-btn" data-filter="eventos">Eventos</button>
+      <button class="filter-btn" data-filter="corporativo">Corporativo</button>
+    </div>
+
+    <div class="gallery-grid" id="gallery-grid">
+      <div class="gallery-item fade-up" data-category="bodas">
+        <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?w=700&q=80" alt="Boda" loading="lazy">
+        <div class="gallery-item-info"><span class="label">Bodas</span><p>Boda en Segovia</p></div>
+      </div>
+      <div class="gallery-item fade-up" data-category="retratos" style="transition-delay:0.05s">
+        <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=700&q=80" alt="Retrato" loading="lazy">
+        <div class="gallery-item-info"><span class="label">Retratos</span><p>Sesión retrato</p></div>
+      </div>
+      <div class="gallery-item fade-up" data-category="familias" style="transition-delay:0.1s">
+        <img src="https://images.unsplash.com/photo-1511988617509-a57c8a288659?w=700&q=80" alt="Familia" loading="lazy">
+        <div class="gallery-item-info"><span class="label">Familias</span><p>Sesión familiar</p></div>
+      </div>
+      <div class="gallery-item fade-up" data-category="bodas" style="transition-delay:0.05s">
+        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=700&q=80" alt="Boda exterior" loading="lazy">
+        <div class="gallery-item-info"><span class="label">Bodas</span><p>Enlace en jardines</p></div>
+      </div>
+      <div class="gallery-item fade-up" data-category="eventos" style="transition-delay:0.1s">
+        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=700&q=80" alt="Evento corporativo" loading="lazy">
+        <div class="gallery-item-info"><span class="label">Eventos</span><p>Congreso empresarial</p></div>
+      </div>
+      <div class="gallery-item fade-up" data-category="corporativo" style="transition-delay:0.15s">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=700&q=80" alt="Retrato corporativo" loading="lazy">
+        <div class="gallery-item-info"><span class="label">Corporativo</span><p>Directivo — Tech startup</p></div>
+      </div>
+      <div class="gallery-item fade-up" data-category="bodas" style="transition-delay:0.05s">
+        <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=700&q=80" alt="Boda detalles" loading="lazy">
+        <div class="gallery-item-info"><span class="label">Bodas</span><p>Detalles nupciales</p></div>
+      </div>
+      <div class="gallery-item fade-up" data-category="retratos" style="transition-delay:0.1s">
+        <img src="https://images.unsplash.com/photo-1488716820095-cbe80883c496?w=700&q=80" alt="Retrato artístico" loading="lazy">
+        <div class="gallery-item-info"><span class="label">Retratos</span><p>Sesión artística</p></div>
+      </div>
+      <div class="gallery-item fade-up" data-category="familias" style="transition-delay:0.15s">
+        <img src="https://images.unsplash.com/photo-1567827049186-d48b9f1dd2a1?w=700&q=80" alt="Familia exterior" loading="lazy">
+        <div class="gallery-item-info"><span class="label">Familias</span><p>Sesión en campo</p></div>
+      </div>
+      <div class="gallery-item fade-up" data-category="eventos" style="transition-delay:0.1s">
+        <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=700&q=80" alt="Evento social" loading="lazy">
+        <div class="gallery-item-info"><span class="label">Eventos</span><p>Fiesta de lanzamiento</p></div>
+      </div>
+      <div class="gallery-item fade-up" data-category="corporativo" style="transition-delay:0.15s">
+        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=700&q=80" alt="Equipo corporativo" loading="lazy">
+        <div class="gallery-item-info"><span class="label">Corporativo</span><p>Fotografía de equipo</p></div>
+      </div>
+      <div class="gallery-item fade-up" data-category="bodas" style="transition-delay:0.05s">
+        <img src="https://images.unsplash.com/photo-1474552226712-ac0f0961a954?w=700&q=80" alt="Pareja de novios" loading="lazy">
+        <div class="gallery-item-info"><span class="label">Bodas</span><p>Pareja en el campo</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightbox-close">✕</button>
+    <img src="" alt="" id="lightbox-img">
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-banner fade-up" style="margin-top:2rem;">
+    <h2>¿Te ha gustado<br><em>nuestro trabajo?</em></h2>
+    <a href="contacto.html" class="btn"><span>Solicita tu sesión</span>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">Lumen <span>Studio</span></a>
+        <p>Estudio de fotografía profesional especializado en bodas, retratos y eventos.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="servicios.html">Servicios</a></li>
+          <li><a href="sobre-nosotros.html">Sobre nosotros</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Servicios</h4>
+        <ul>
+          <li><a href="servicios.html">Fotografía de bodas</a></li>
+          <li><a href="servicios.html">Retratos</a></li>
+          <li><a href="servicios.html">Familias</a></li>
+          <li><a href="servicios.html">Eventos</a></li>
+          <li><a href="servicios.html">Corporativo</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="mailto:info@lumenstudio.es">info@lumenstudio.es</a></li>
+          <li><a href="tel:+34600000000">+34 600 000 000</a></li>
+        </ul>
+        <div class="social-links" style="margin-top:1.5rem;">
+          <a href="#">Instagram</a>
+          <a href="#">Facebook</a>
+          <a href="#">Pinterest</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Lumen Studio Fotografía. Todos los derechos reservados.</span>
+    </div>
+  </footer>
+
+  <script>
+    // Fade-up
+    const fadeEls = document.querySelectorAll('.fade-up');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    fadeEls.forEach(el => obs.observe(el));
+
+    // Filter
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        galleryItems.forEach(item => {
+          if (filter === 'all' || item.dataset.category === filter) {
+            item.style.display = 'block';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Lightbox
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    document.getElementById('lightbox-close').addEventListener('click', () => lightbox.classList.remove('open'));
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) lightbox.classList.remove('open'); });
+
+    galleryItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const img = item.querySelector('img');
+        lightboxImg.src = img.src.replace('w=700', 'w=1400');
+        lightboxImg.alt = img.alt;
+        lightbox.classList.add('open');
+      });
+    });
+
+    // Nav
+    document.getElementById('nav-toggle').addEventListener('click', function() {
+      const links = document.querySelector('.nav-links');
+      const isOpen = links.style.display === 'flex';
+      links.style.display = isOpen ? 'none' : 'flex';
+      links.style.flexDirection = 'column';
+      links.style.position = 'fixed';
+      links.style.top = '70px';
+      links.style.left = '0';
+      links.style.right = '0';
+      links.style.background = 'rgba(12,12,11,0.98)';
+      links.style.padding = '2rem';
+      links.style.gap = '1.5rem';
+      links.style.backdropFilter = 'blur(12px)';
+      links.style.borderBottom = '1px solid rgba(201,169,110,0.18)';
+    });
+  </script>
+</body>
+</html>
