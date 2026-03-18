@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -343,26 +344,59 @@
 
   <script>
     const fadeEls = document.querySelectorAll('.fade-up');
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-    }, { threshold: 0.1 });
-    fadeEls.forEach(el => obs.observe(el));
+    
 
-    document.getElementById('nav-toggle').addEventListener('click', function() {
-      const links = document.querySelector('.nav-links');
-      const isOpen = links.style.display === 'flex';
-      links.style.display = isOpen ? 'none' : 'flex';
-      links.style.flexDirection = 'column';
-      links.style.position = 'fixed';
-      links.style.top = '70px';
-      links.style.left = '0';
-      links.style.right = '0';
-      links.style.background = 'rgba(12,12,11,0.98)';
-      links.style.padding = '2rem';
-      links.style.gap = '1.5rem';
-      links.style.backdropFilter = 'blur(12px)';
-      links.style.borderBottom = '1px solid rgba(201,169,110,0.18)';
-    });
+    
+  </script>
+  <script>
+    // ── Scroll nav ──────────────────────────────
+    const nav = document.getElementById('main-nav');
+    if (nav) {
+      window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 60);
+      });
+    }
+
+    // ── Menú hamburguesa ─────────────────────────
+    const toggle = document.getElementById('nav-toggle');
+    const links  = document.querySelector('.nav-links');
+
+    if (toggle && links) {
+      toggle.addEventListener('click', () => {
+        const isOpen = links.classList.contains('mobile-open');
+        links.classList.toggle('mobile-open', !isOpen);
+        toggle.classList.toggle('open', !isOpen);
+        document.body.style.overflow = isOpen ? '' : 'hidden';
+      });
+
+      links.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          links.classList.remove('mobile-open');
+          toggle.classList.remove('open');
+          document.body.style.overflow = '';
+        });
+      });
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 1024) {
+          links.classList.remove('mobile-open');
+          toggle.classList.remove('open');
+          document.body.style.overflow = '';
+        }
+      });
+    }
+
+    // ── Fade-up al hacer scroll ──────────────────
+    const fadeEls = document.querySelectorAll('.fade-up');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    fadeEls.forEach(el => observer.observe(el));
   </script>
 </body>
 </html>
