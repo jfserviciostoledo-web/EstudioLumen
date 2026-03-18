@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto — Lumen Studio Fotografía</title>
+  <meta name="description" content="Contacta con Lumen Studio Fotografía. Escríbenos para solicitar información o presupuesto para tu sesión.">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 0;
+      min-height: 70vh;
+    }
+
+    /* Left panel */
+    .contact-info {
+      background: var(--surface);
+      padding: 5rem;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .contact-info .label { margin-bottom: 1rem; }
+    .contact-info h2 { margin-bottom: 2.5rem; }
+
+    .contact-detail {
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .contact-detail:last-of-type { border-bottom: none; margin-bottom: 0; }
+
+    .contact-detail-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+    }
+
+    .contact-detail a,
+    .contact-detail p {
+      font-size: 1rem;
+      color: var(--white);
+      transition: color var(--transition);
+    }
+    .contact-detail a:hover { color: var(--gold); }
+
+    .contact-social {
+      margin-top: 3rem;
+    }
+
+    .contact-social .contact-detail-label { margin-bottom: 1rem; }
+
+    .contact-social-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .contact-social-links a {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0.5rem 1.1rem;
+      border: 1px solid var(--border);
+      transition: all var(--transition);
+    }
+
+    .contact-social-links a:hover {
+      color: var(--gold);
+      border-color: var(--gold);
+      background: rgba(201,169,110,0.06);
+    }
+
+    /* Right panel — form */
+    .contact-form-panel {
+      background: var(--bg);
+      padding: 5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .contact-form-panel h3 {
+      font-family: var(--serif);
+      font-size: 1.6rem;
+      margin-bottom: 2.5rem;
+      color: var(--white);
+    }
+
+    /* Form elements */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--white);
+      font-family: var(--sans);
+      font-size: 0.92rem;
+      font-weight: 300;
+      padding: 1rem 1.2rem;
+      outline: none;
+      transition: border-color var(--transition);
+      -webkit-appearance: none;
+      appearance: none;
+      border-radius: 0;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--gold);
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 130px;
+      line-height: 1.7;
+    }
+
+    .form-group select option {
+      background: var(--bg);
+    }
+
+    .form-submit {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 0.5rem;
+    }
+
+    /* Success message */
+    .form-success {
+      display: none;
+      background: rgba(201,169,110,0.08);
+      border: 1px solid var(--gold);
+      padding: 1.5rem;
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .form-success p {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--gold-pale);
+    }
+
+    @media (max-width: 900px) {
+      .contact-layout { grid-template-columns: 1fr; }
+      .contact-info { padding: 3.5rem 2rem; border-right: none; border-bottom: 1px solid var(--border); }
+      .contact-form-panel { padding: 3.5rem 2rem; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav scrolled" id="main-nav">
+    <a href="index.html" class="nav-logo">Lumen <span>Studio</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="servicios.html">Servicios</a></li>
+      <li><a href="sobre-nosotros.html">Sobre nosotros</a></li>
+      <li><a href="contacto.html" class="active nav-cta">Contacto</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Abrir menú" id="nav-toggle">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="page-hero">
+    <span class="label fade-up"><span class="gold-line"></span>Hablemos</span>
+    <h1 class="fade-up" style="transition-delay:0.1s">Contacto</h1>
+    <p class="fade-up" style="transition-delay:0.2s; color:var(--muted); margin-top:1rem; max-width:480px;">Cuéntanos tu proyecto. Nos pondremos en contacto contigo en menos de 24 horas.</p>
+  </div>
+
+  <section style="padding: 0;">
+    <div class="contact-layout fade-up">
+
+      <!-- Info -->
+      <div class="contact-info">
+        <span class="label"><span class="gold-line"></span>Información</span>
+        <h2>Estamos<br><em>aquí para ti</em></h2>
+
+        <div class="contact-detail">
+          <div class="contact-detail-label">Email</div>
+          <a href="mailto:info@lumenstudio.es">info@lumenstudio.es</a>
+        </div>
+
+        <div class="contact-detail">
+          <div class="contact-detail-label">Teléfono</div>
+          <a href="tel:+34600000000">+34 600 000 000</a>
+        </div>
+
+        <div class="contact-detail">
+          <div class="contact-detail-label">Horario</div>
+          <p>Lunes a viernes, 9:00 – 19:00 h</p>
+        </div>
+
+        <div class="contact-detail">
+          <div class="contact-detail-label">Zona de trabajo</div>
+          <p>Madrid y alrededores · Desplazamientos a toda España</p>
+        </div>
+
+        <div class="contact-social">
+          <div class="contact-detail-label">Síguenos</div>
+          <div class="contact-social-links">
+            <a href="#">Instagram</a>
+            <a href="#">Facebook</a>
+            <a href="#">Pinterest</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="contact-form-panel">
+        <h3>Cuéntanos tu proyecto</h3>
+
+        <form id="contact-form" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nombre">Nombre</label>
+              <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="tu@email.com" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="telefono">Teléfono</label>
+              <input type="tel" id="telefono" name="telefono" placeholder="+34 600 000 000">
+            </div>
+            <div class="form-group">
+              <label for="servicio">Tipo de sesión</label>
+              <select id="servicio" name="servicio">
+                <option value="" disabled selected>Selecciona un servicio</option>
+                <option value="bodas">Fotografía de bodas</option>
+                <option value="retratos">Sesión de retratos</option>
+                <option value="familias">Fotografía familiar</option>
+                <option value="eventos">Fotografía de eventos</option>
+                <option value="corporativo">Fotografía corporativa</option>
+                <option value="estudio">Sesión en estudio</option>
+                <option value="exteriores">Sesión en exteriores</option>
+                <option value="otro">Otro</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="fecha">Fecha aproximada (opcional)</label>
+            <input type="text" id="fecha" name="fecha" placeholder="Ej: Junio 2025 o sin determinar">
+          </div>
+
+          <div class="form-group">
+            <label for="mensaje">Cuéntanos más</label>
+            <textarea id="mensaje" name="mensaje" placeholder="Describe brevemente lo que buscas, la ocasión, el lugar… cualquier detalle nos ayuda." required></textarea>
+          </div>
+
+          <div class="form-submit">
+            <button type="submit" class="btn">
+              <span>Enviar mensaje</span>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </form>
+
+        <div class="form-success" id="form-success">
+          <p>¡Mensaje recibido! Te escribiremos en menos de 24 horas.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer" style="margin-top:0;">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">Lumen <span>Studio</span></a>
+        <p>Estudio de fotografía profesional especializado en bodas, retratos y eventos.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="servicios.html">Servicios</a></li>
+          <li><a href="sobre-nosotros.html">Sobre nosotros</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Servicios</h4>
+        <ul>
+          <li><a href="servicios.html">Fotografía de bodas</a></li>
+          <li><a href="servicios.html">Retratos</a></li>
+          <li><a href="servicios.html">Familias</a></li>
+          <li><a href="servicios.html">Eventos</a></li>
+          <li><a href="servicios.html">Corporativo</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="mailto:info@lumenstudio.es">info@lumenstudio.es</a></li>
+          <li><a href="tel:+34600000000">+34 600 000 000</a></li>
+        </ul>
+        <div class="social-links" style="margin-top:1.5rem;">
+          <a href="#">Instagram</a>
+          <a href="#">Facebook</a>
+          <a href="#">Pinterest</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Lumen Studio Fotografía. Todos los derechos reservados.</span>
+    </div>
+  </footer>
+
+  <script>
+    // ── Formulario de contacto ───────────────────
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const nombre  = document.getElementById('nombre').value.trim();
+      const email   = document.getElementById('email').value.trim();
+      const mensaje = document.getElementById('mensaje').value.trim();
+      if (!nombre || !email || !mensaje) {
+        // Mostrar error inline en lugar de alert (mejor UX en móvil)
+        document.querySelectorAll('.field-error').forEach(el => el.remove());
+        if (!nombre)  addError('nombre',  'El nombre es obligatorio');
+        if (!email)   addError('email',   'El email es obligatorio');
+        if (!mensaje) addError('mensaje', 'El mensaje es obligatorio');
+        return;
+      }
+      this.style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
+    });
+
+    function addError(fieldId, msg) {
+      const field = document.getElementById(fieldId);
+      const err = document.createElement('span');
+      err.className = 'field-error';
+      err.style.cssText = 'color:#c9a96e;font-size:0.75rem;margin-top:0.3rem;display:block;';
+      err.textContent = msg;
+      field.parentNode.appendChild(err);
+      field.style.borderColor = 'rgba(201,169,110,0.6)';
+    }
+
+    // ── Scroll nav ───────────────────────────────
+    const nav = document.getElementById('main-nav');
+    if (nav) {
+      window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 60);
+      });
+    }
+
+    // ── Menú hamburguesa ─────────────────────────
+    const toggle = document.getElementById('nav-toggle');
+    const links  = document.querySelector('.nav-links');
+
+    if (toggle && links) {
+      toggle.addEventListener('click', () => {
+        const isOpen = links.classList.contains('mobile-open');
+        links.classList.toggle('mobile-open', !isOpen);
+        toggle.classList.toggle('open', !isOpen);
+        document.body.style.overflow = isOpen ? '' : 'hidden';
+      });
+
+      links.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          links.classList.remove('mobile-open');
+          toggle.classList.remove('open');
+          document.body.style.overflow = '';
+        });
+      });
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 1024) {
+          links.classList.remove('mobile-open');
+          toggle.classList.remove('open');
+          document.body.style.overflow = '';
+        }
+      });
+    }
+
+    // ── Fade-up al hacer scroll ──────────────────
+    const fadeEls = document.querySelectorAll('.fade-up');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    fadeEls.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
