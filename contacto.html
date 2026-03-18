@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -353,43 +354,82 @@
   </footer>
 
   <script>
-    // Fade-up
-    const fadeEls = document.querySelectorAll('.fade-up');
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-    }, { threshold: 0.1 });
-    fadeEls.forEach(el => obs.observe(el));
-
-    // Form submit simulation
+    // ── Formulario de contacto ───────────────────
     document.getElementById('contact-form').addEventListener('submit', function(e) {
       e.preventDefault();
-      const nombre = document.getElementById('nombre').value.trim();
-      const email = document.getElementById('email').value.trim();
+      const nombre  = document.getElementById('nombre').value.trim();
+      const email   = document.getElementById('email').value.trim();
       const mensaje = document.getElementById('mensaje').value.trim();
       if (!nombre || !email || !mensaje) {
-        alert('Por favor rellena los campos obligatorios: nombre, email y mensaje.');
+        // Mostrar error inline en lugar de alert (mejor UX en móvil)
+        document.querySelectorAll('.field-error').forEach(el => el.remove());
+        if (!nombre)  addError('nombre',  'El nombre es obligatorio');
+        if (!email)   addError('email',   'El email es obligatorio');
+        if (!mensaje) addError('mensaje', 'El mensaje es obligatorio');
         return;
       }
       this.style.display = 'none';
       document.getElementById('form-success').style.display = 'block';
     });
 
-    // Nav toggle
-    document.getElementById('nav-toggle').addEventListener('click', function() {
-      const links = document.querySelector('.nav-links');
-      const isOpen = links.style.display === 'flex';
-      links.style.display = isOpen ? 'none' : 'flex';
-      links.style.flexDirection = 'column';
-      links.style.position = 'fixed';
-      links.style.top = '70px';
-      links.style.left = '0';
-      links.style.right = '0';
-      links.style.background = 'rgba(12,12,11,0.98)';
-      links.style.padding = '2rem';
-      links.style.gap = '1.5rem';
-      links.style.backdropFilter = 'blur(12px)';
-      links.style.borderBottom = '1px solid rgba(201,169,110,0.18)';
-    });
+    function addError(fieldId, msg) {
+      const field = document.getElementById(fieldId);
+      const err = document.createElement('span');
+      err.className = 'field-error';
+      err.style.cssText = 'color:#c9a96e;font-size:0.75rem;margin-top:0.3rem;display:block;';
+      err.textContent = msg;
+      field.parentNode.appendChild(err);
+      field.style.borderColor = 'rgba(201,169,110,0.6)';
+    }
+
+    // ── Scroll nav ───────────────────────────────
+    const nav = document.getElementById('main-nav');
+    if (nav) {
+      window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 60);
+      });
+    }
+
+    // ── Menú hamburguesa ─────────────────────────
+    const toggle = document.getElementById('nav-toggle');
+    const links  = document.querySelector('.nav-links');
+
+    if (toggle && links) {
+      toggle.addEventListener('click', () => {
+        const isOpen = links.classList.contains('mobile-open');
+        links.classList.toggle('mobile-open', !isOpen);
+        toggle.classList.toggle('open', !isOpen);
+        document.body.style.overflow = isOpen ? '' : 'hidden';
+      });
+
+      links.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          links.classList.remove('mobile-open');
+          toggle.classList.remove('open');
+          document.body.style.overflow = '';
+        });
+      });
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 1024) {
+          links.classList.remove('mobile-open');
+          toggle.classList.remove('open');
+          document.body.style.overflow = '';
+        }
+      });
+    }
+
+    // ── Fade-up al hacer scroll ──────────────────
+    const fadeEls = document.querySelectorAll('.fade-up');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    fadeEls.forEach(el => observer.observe(el));
   </script>
 </body>
 </html>
